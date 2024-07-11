@@ -1,11 +1,20 @@
 'use strict';
 
-let loginObj = new UserForm();
-loginObj.loginFormCallback = (data) => {
+let userForm = new UserForm();
+userForm.loginFormCallback = (data) => {
   ApiConnector.login(data, (response) => {
-    if(response.success === false){
-      loginObj.setLoginErrorMessage(response.error)
-    }else {
+    if (response.success === false) {
+      userForm.setLoginErrorMessage(response.error);
+    } else {
+      location.reload();
+    }
+  });
+};
+userForm.registerFormCallback = (data) => {
+  ApiConnector.register(data, (response) => {
+    if (response.success === false) {
+      userForm.setRegisterErrorMessage(response.error);
+    } else {
       location.reload();
     }
   });
