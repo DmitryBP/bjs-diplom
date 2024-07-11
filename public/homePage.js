@@ -33,7 +33,10 @@ const moneyManager = new MoneyManager();
 moneyManager.addMoneyCallback = (data) => {
   ApiConnector.addMoney(data, (response) => {
     if (response.success) {
+      console.log(response, data);
       ProfileWidget.showProfile(response.data);
+      console.log(response);
+      moneyManager.setMessage(response.success, 'test');
     }
   });
 };
