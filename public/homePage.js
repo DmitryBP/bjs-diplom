@@ -40,3 +40,39 @@ moneyManager.addMoneyCallback = (data) => {
     }
   });
 };
+// Работа с избранным
+// Запрос начального списка избранного
+const favoritesWidget = new FavoritesWidget();
+ApiConnector.getFavorites((response) => {
+  if (response.success) {
+    favoritesWidget.clearTable();
+    favoritesWidget.fillTable(response.data);
+    moneyManager.updateUsersList(response.data);
+  }
+});
+// Добавление пользователя в список избранного
+favoritesWidget.addUserCallback = (data) => {
+  ApiConnector.addUserToFavorites(data, (response) => {
+    if (response.success) {
+      favoritesWidget.clearTable();
+      favoritesWidget.fillTable(response.data);
+      moneyManager.updateUsersList(response.data);
+      moneyManager.setMessage(true, "Пользователь добавлен");
+    } else {
+      moneyManager.setMessage(false, response.error);
+    }
+  });
+};
+// Удаление пользователя из избранного
+favoritesWidget.removeUserCallback = (data) => {
+  ApiConnector.removeUserFromFavorites(data, (response) => {
+    if (response.success) {
+      favoritesWidget.clearTable();
+      favoritesWidget.fillTable(response.data);
+      moneyManager.updateUsersList(response.data);
+      moneyManager.setMessage(true, "Пользователь удален");
+    } else {
+      moneyManager.setMessage(false, response.error);
+    }
+  });
+};
